@@ -1,5 +1,3 @@
-// Step 1: create the "map" object
-// -------------------------------
 mapboxgl.accessToken =
   "pk.eyJ1IjoibW1vcmxleTAzOTUiLCJhIjoiY2t6NmJraWpxMHlrMjMxdHZkYTk3Zm05eCJ9.jK-jyoUNhxVfg3NIbNj6yQ";
 
@@ -11,12 +9,13 @@ const map = new mapboxgl.Map({
   pitch: 0,
 });
 
-// Step 2: add data sources and layers to the map after initial load
-// -----------------------------------------------------------------
+function touchStarted() {
+  getAudioContext().resume();
+}
 
 map.on("load", () => {
   // LOAD DATA: add geojson layer
-  map.addSource("meo", {
+  map.addSource("amtrak", {
     type: "geojson",
     data: "https://opendata.arcgis.com/datasets/baa5a6c4d4ae4034850e99aaca38cfbb_0.geojson",
   });
@@ -25,7 +24,7 @@ map.on("load", () => {
   map.addLayer({
     id: "amtrak",
     type: "line",
-    source: "meo",
+    source: "amtrak",
     "line-width": 1,
     paint: {
       "line-color": "#00ffff",
@@ -37,8 +36,6 @@ map.on("load", () => {
     // get the attributes for the specific feature under the mouse
     let properties = e.features[0].properties;
     let routename = properties["NAME"];
-
-    // build a HTML template with the values for this feature
     let message = `
       <h3>${routename}</h3>
     `;
@@ -50,6 +47,14 @@ map.on("load", () => {
     });
 
     popup.setLngLat(e.lngLat).setHTML(message).addTo(map);
+  });
+
+  map.on("click", "amtrak", (e) => {
+    oscillator.start();
+  });
+
+  map.off("click", "amtrak", (e) => {
+    oscillator.stop();
   });
 
   // Remove popup from the map when the user's mouse is no longer
@@ -64,3 +69,12 @@ map.on("load", () => {
     }
   });
 });
+// create web audio api context
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+// create Oscillator node
+const oscillator = audioCtx.createOscillator();
+
+oscillator.type = "sine";
+oscillator.frequency.setValueAtTime(340, audioCtx.currentTime); // value in hertz
+oscillator.connect(audioCtx.destination);
