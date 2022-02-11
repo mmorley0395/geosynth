@@ -49,14 +49,6 @@ map.on("load", () => {
     popup.setLngLat(e.lngLat).setHTML(message).addTo(map);
   });
 
-  map.on("click", "amtrak", (e) => {
-    oscillator.start();
-  });
-
-  map.off("click", "amtrak", (e) => {
-    oscillator.stop();
-  });
-
   // Remove popup from the map when the user's mouse is no longer
   // hovering over a RR line
   map.on("mouseleave", "amtrak", (e) => {
@@ -69,12 +61,21 @@ map.on("load", () => {
     }
   });
 });
-// create web audio api context
+
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
 // create Oscillator node
-const oscillator = audioCtx.createOscillator();
 
-oscillator.type = "sine";
-oscillator.frequency.setValueAtTime(340, audioCtx.currentTime); // value in hertz
-oscillator.connect(audioCtx.destination);
+map.on("mouseenter", "amtrak", (e) => {
+  const oscillator = audioCtx.createOscillator();
+  oscillator.type = "sine";
+  oscillator.frequency.setValueAtTime(340, audioCtx.currentTime); // value in hertz
+  oscillator.connect(audioCtx.destination);
+  oscillator.start(0);
+});
+
+map.on("mouseleave", "amtrak", (e) => {
+  oscillator.stop(0);
+});
+
+// create web audio api context
