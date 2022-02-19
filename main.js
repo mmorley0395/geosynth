@@ -35,7 +35,6 @@ map.on("load", () => {
       <h3>${routename}</h3>
     `;
     playosc();
-
     let popup = new mapboxgl.Popup({
       closeButton: false,
       className: "popup-style",
