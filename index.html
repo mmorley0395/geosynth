@@ -13,7 +13,21 @@
     <link href="./style.css" rel="stylesheet" />
   </head>
   <body>
-    <div id="map"></div>
+    <div id="map">
+      <div id="b1">
+        <select name="data" id="data">
+          <option value="amtrak">Amtrak Routes</option>
+          <option value="superfund sites">Superfund sites</option>
+          <option value="pop density">Population Density</option>
+        </select>
+        <select name="cars" id="cars">
+          <option value="osc">Oscilator</option>
+          <option value="del">Delay</option>
+          <option value="gain">Gain</option>
+          <option value="filt">Filter</option>
+        </select>
+      </div>
+    </div>
     <script src="./main.js" type="module"></script>
   </body>
 </html>

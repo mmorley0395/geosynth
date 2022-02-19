@@ -44,10 +44,10 @@ map.on("load", () => {
   });
 
   map.on("mouseleave", "amtrak", (e) => {
+    stoposc();
     let popup = document.getElementsByClassName("popup-style");
     if (popup.length) {
       popup[0].remove();
-      stoposc();
     }
   });
 });
