@@ -34,11 +34,11 @@ map.on("load", () => {
     let message = `
       <h3>${routename}</h3>
     `;
+    playosc();
 
     let popup = new mapboxgl.Popup({
       closeButton: false,
       className: "popup-style",
-      playosc();
     });
 
     popup.setLngLat(e.lngLat).setHTML(message).addTo(map);
