@@ -1,3 +1,5 @@
+import { playosc, stoposc } from "/synth.js";
+
 mapboxgl.accessToken =
   "pk.eyJ1IjoibW1vcmxleTAzOTUiLCJhIjoiY2t6NmJraWpxMHlrMjMxdHZkYTk3Zm05eCJ9.jK-jyoUNhxVfg3NIbNj6yQ";
 
@@ -8,10 +10,6 @@ const map = new mapboxgl.Map({
   zoom: 6.77,
   pitch: 0,
 });
-
-function touchStarted() {
-  getAudioContext().resume();
-}
 
 map.on("load", () => {
   // LOAD DATA: add geojson layer
@@ -61,23 +59,6 @@ map.on("load", () => {
     }
   });
 });
-
-const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-var ac = new window.AudioContext() || new window.webkitAudioContext();
-var osc;
-// create Oscillator node
-function playosc() {
-  osc = ac.createOscillator();
-  osc.type = "sine";
-  osc.frequency.value = 340; // value in hertz
-  osc.connect(ac.destination);
-  osc.start(0.5);
-  console.log("hello?");
-}
-
-function stoposc() {
-  osc.stop();
-}
 
 map.on("mouseenter", "amtrak", (e) => {
   playosc();
