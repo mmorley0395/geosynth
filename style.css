@@ -19,7 +19,7 @@ body {
   color: rgb(206, 252, 244);
 }
 
-#cars {
+#synth_tools {
   position: absolute;
   z-index: 1;
   top: 20%;

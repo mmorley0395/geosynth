@@ -11,6 +11,15 @@ const map = new mapboxgl.Map({
   pitch: 0,
 });
 
+function find_length_features_in_bbox(map) {
+  var bounds = map.getBounds();
+  return bounds;
+}
+
+map.on("zoom", () => {
+  console.log(find_length_features_in_bbox);
+});
+
 map.on("load", () => {
   // LOAD DATA: add geojson layer
   map.addSource("amtrak", {
