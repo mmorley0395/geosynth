@@ -11,16 +11,6 @@ const map = new mapboxgl.Map({
   pitch: 0,
 });
 
-function find_length_features_in_bbox() {
-  var bounds = map.getBounds();
-  console.log(bounds._sw);
-  console.log(bounds._ne);
-}
-
-map.on("zoom", () => {
-  console.log(find_length_features_in_bbox());
-});
-
 map.on("load", () => {
   // LOAD DATA: add geojson layer
   map.addSource("amtrak", {
@@ -60,4 +50,23 @@ map.on("load", () => {
       popup[0].remove();
     }
   });
+});
+
+function find_length_features_in_bbox(feature) {
+  //finds the current bbox, finds length of whatever line type feature is in bbox
+  var bounds = map.getBounds();
+  var sw_lon = bounds._sw.lng;
+  var sw_lat = bounds._sw.lat;
+  var ne_lon = bounds._ne.lng;
+  var ne_lat = bounds._ne.lat;
+  var bbox = [sw_lon, sw_lat, ne_lon, ne_lat];
+  var line = turf.lineString(feature);
+  var length = turf.length(line, { units: "miles" });
+  // var clipped = turf.bboxClip(feature, bbox);
+  console.log(length);
+}
+
+map.on("zoom", () => {
+  // console.log(find_length_features_in_bbox("amtrak"));
+  console.log(map.querySourceFeatures("amtrak"));
 });
