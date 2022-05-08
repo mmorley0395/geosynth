@@ -11,13 +11,14 @@ const map = new mapboxgl.Map({
   pitch: 0,
 });
 
-function find_length_features_in_bbox(map) {
+function find_length_features_in_bbox() {
   var bounds = map.getBounds();
-  return bounds;
+  console.log(bounds._sw);
+  console.log(bounds._ne);
 }
 
 map.on("zoom", () => {
-  console.log(find_length_features_in_bbox);
+  console.log(find_length_features_in_bbox());
 });
 
 map.on("load", () => {
